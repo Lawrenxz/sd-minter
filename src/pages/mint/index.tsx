@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import React, { useEffect, useState } from "react";
-import Layout from "../components/layout/Layout";
+import Layout from "components/layout/Layout";
 import { Box, Grid, Typography } from "@mui/material";
-import utils from "../utils/utils";
-import useCustomWallet from "../utils/useCustomWallet";
-import { header } from "../constant/constant";
-import MintContainer from "../components/mintContainer/MintContainer";
+import utils from "utils/utils";
+import useCustomWallet from "utils/useCustomWallet";
+import { header } from "constant/constant";
+import MintContainer from "components/mintContainer/MintContainer";
 
 const index = () => {
   const { publicKey } = useCustomWallet();

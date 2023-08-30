@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useFormik } from "formik";
 import { Input as inp, Tooltip } from "antd";
 import { AiFillQuestionCircle } from "react-icons/ai";
-import { validationSchema } from "pages/validation/nftValidation";
+import { validationSchema } from "validation/nftValidation";
 import { toMetaplexFile } from "@metaplex-foundation/js";
-import { useMetaplex } from "pages/metaplexInstance";
+import { useMetaplex } from "metaplexInstance";
 import * as Web3 from "@solana/web3.js";
 import toast from "react-hot-toast";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
@@ -20,7 +20,7 @@ import {
   useWallet,
 } from "@solana/wallet-adapter-react";
 import * as anchor from "@project-serum/anchor";
-import { idlPrompt, authorFilter } from "pages/utils/idlPrompt";
+import { idlPrompt, authorFilter } from "utils/idlPrompt";
 
 const { TextArea } = inp; // Use lowercas
 

@@ -9,8 +9,8 @@ import { Input as inp } from "antd";
 import fs from "fs";
 import { toMetaplexFile } from "@metaplex-foundation/js";
 
-import { validationSchema } from "pages/validation/nftValidation";
-import { useMetaplex } from "pages/metaplexInstance";
+import { validationSchema } from "validation/nftValidation";
+import { useMetaplex } from "metaplexInstance";
 
 const { TextArea } = inp; // Use lowercas
 
