@@ -9,17 +9,36 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@metaplex-foundation/js": "^0.19.4",
+    "@mui/material": "^5.14.5",
+    "@project-serum/anchor": "^0.26.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.34",
+    "@solana/wallet-adapter-react-ui": "^0.9.33",
+    "@solana/wallet-adapter-wallets": "^0.19.20",
+    "@solana/web3.js": "^1.78.4",
     "@types/node": "20.5.3",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "antd": "^5.8.4",
     "autoprefixer": "10.4.15",
+    "bs58": "^5.0.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
+    "formik": "^2.4.3",
     "next": "13.4.19",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.10.1",
     "tailwindcss": "3.3.3",
-    "typescript": "5.1.6"
+    "ts-node": "^10.9.1",
+    "typescript": "5.1.6",
+    "yup": "^1.2.0",
+    "zustand": "^4.4.1"
   }
 }
