@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
-import Layout from "../components/layout/Layout";
+
 import { Box, Typography } from "@mui/material";
-import utils from "../utils/utils";
-import useCustomWallet from "../utils/useCustomWallet";
-import CustomPictureHolder from "../components/customPictureHolder/CustomPictureHolder";
-import { header } from "../constant/constant";
+import utils from "utils/utils";
+import useCustomWallet from "utils/useCustomWallet";
+import CustomPictureHolder from "components/customPictureHolder/CustomPictureHolder";
+import { header } from "constant/constant";
+import Layout from "components/layout/Layout";
 
 interface FinalNFT {
   id: string;

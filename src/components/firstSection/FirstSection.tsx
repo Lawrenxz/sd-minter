@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { header, subHeader } from "pages/constant/constant";
+import { header, subHeader } from "constant/constant";
 import Image from "next/image";
 
 const FirstSection = () => {

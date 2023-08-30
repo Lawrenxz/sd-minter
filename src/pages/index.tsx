@@ -1,5 +1,5 @@
-import Layout from "./components/layout/Layout";
-import FirstSection from "./components/firstSection/FirstSection";
+import Layout from "components/layout/Layout";
+import FirstSection from "components/firstSection/FirstSection";
 
 export default function Home() {
   return (

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Box, IconButton } from "@mui/material";
-import useCustomWallet from "pages/utils/useCustomWallet";
+import useCustomWallet from "utils/useCustomWallet";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";

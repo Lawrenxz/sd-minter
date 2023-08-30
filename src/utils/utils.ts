@@ -3,7 +3,7 @@ import React from "react";
 
 import { message } from "antd";
 import { PublicKey } from "@solana/web3.js";
-import { useMetaplex } from "pages/metaplexInstance";
+import { useMetaplex } from "metaplexInstance";
 interface FinalNFT {
   id: string;
   name: string;
