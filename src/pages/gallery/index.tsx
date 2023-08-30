@@ -28,6 +28,7 @@ const index = () => {
         if (request) {
           setNftListed(request);
         }
+        console.log(request);
       } catch (error) {
         console.error("Error fetching NFTs:", error);
       }

@@ -9,7 +9,6 @@ import { useMemo } from "react";
 export const useMetaplex = () => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  console.log("cooonnect", connection);
 
   const metaplex = useMemo(() => {
     return Metaplex.make(connection)

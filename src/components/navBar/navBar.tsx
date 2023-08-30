@@ -24,7 +24,7 @@ const NavBar = () => {
   return (
     <nav className=" border-b z-50 border-white flex items-center justify-start w-full py-2 px-10 bg-black absolute top-0 left-0 ">
       <IconButton className="sm:hidden" onClick={handleToggleDrawer}>
-        <AiOutlineMenu color="white" />
+        <AiOutlineMenu className="sm:hidden" color="white" />
       </IconButton>
 
       <Box className=" flex-row w-full hidden sm:flex justify-center items-center">
