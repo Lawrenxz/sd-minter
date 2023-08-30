@@ -11,6 +11,7 @@ import { toMetaplexFile } from "@metaplex-foundation/js";
 
 import { validationSchema } from "validation/nftValidation";
 import { useMetaplex } from "metaplexInstance";
+import CustomLoading from "components/customLoading/CustomLoading";
 
 const { TextArea } = inp; // Use lowercas
 
@@ -36,6 +37,7 @@ const Manually: React.FC = () => {
   const [newAttributeName, setNewAttributeName] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
   const [ButtonDisable, setButtonDisable] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: nftInfo,
@@ -96,6 +98,7 @@ const Manually: React.FC = () => {
               name: nftInfo.name,
               description: nftInfo.description,
               image: toMetaplexFile(buffer, "metaplex.png"),
+              attributes: [attributes],
             });
             const { nft } = await mx.nfts().create({
               uri,
@@ -117,6 +120,7 @@ const Manually: React.FC = () => {
     }
 
     setButtonDisable(false);
+    setLoading(false);
   };
   const handleCancelSubmission = () => {
     setAttributes({});
@@ -246,6 +250,9 @@ const Manually: React.FC = () => {
                   <Box className="flex flex-row items-center justify-start gap-2">
                     <TextField
                       InputProps={{
+                        inputProps: {
+                          maxLength: 12,
+                        },
                         style: {
                           color: "white",
                           fontSize: "15px",
@@ -259,6 +266,10 @@ const Manually: React.FC = () => {
                     />
                     <TextField
                       InputProps={{
+                        inputProps: {
+                          maxLength: 12,
+                        },
+
                         style: {
                           color: "white",
                           fontSize: "15px",
@@ -303,6 +314,8 @@ const Manually: React.FC = () => {
                   >
                     <TextField
                       InputProps={{
+                        readOnly: true,
+
                         style: {
                           color: "white",
                           fontSize: "15px",
@@ -375,7 +388,13 @@ const Manually: React.FC = () => {
                     textTransform: "none",
                   }}
                   disabled={ButtonDisable}
-                  onClick={handleUploadMintNFT}
+                  onClick={() => {
+                    setLoading(true);
+                    setButtonDisable(true);
+                    setTimeout(() => {
+                      handleUploadMintNFT();
+                    }, 2000);
+                  }}
                 >
                   <Typography sx={{ fontSize: "15px", color: "white" }}>
                     Submit
@@ -386,6 +405,7 @@ const Manually: React.FC = () => {
           </form>
         </Grid>
       </Grid>
+      <CustomLoading isLoading={loading} />
     </Box>
   );
 };

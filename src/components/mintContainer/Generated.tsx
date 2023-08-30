@@ -21,6 +21,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import * as anchor from "@project-serum/anchor";
 import { idlPrompt, authorFilter } from "utils/idlPrompt";
+import CustomLoading from "components/customLoading/CustomLoading";
 
 const { TextArea } = inp; // Use lowercas
 
@@ -46,7 +47,7 @@ const Generated: React.FC = () => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const anchorWallet = useAnchorWallet();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [lastTodo, setLastTodo] = useState<number>(0);
   const [todos, setTodos] = useState<any[]>([]); // Adjust the type accordingly
@@ -58,7 +59,7 @@ const Generated: React.FC = () => {
   const [realBlobUrl, setRealBlobUrl] = useState<Blob | null>(null);
   const [promptInfo, setPromptInfo] = useState<PROMPTInfo>({
     prompt: "",
-    model: "prompthero/openjourney",
+    model: "Meina/Unreal_V4.1",
   });
 
   const [nftInfo, setNftInfo] = useState<NFTInfo>({
@@ -86,6 +87,7 @@ const Generated: React.FC = () => {
       return new anchor.Program(idlPrompt as any, programId, provider);
     }
   }, [connection, anchorWallet]);
+
   useEffect(() => {
     const findProfileAccounts = async () => {
       if (program && publicKey && !transactionPending) {
@@ -126,6 +128,7 @@ const Generated: React.FC = () => {
     if (program && publicKey) {
       try {
         setTransactionPending(true);
+        setLoading(true);
         const [profilePda, profileBump] = findProgramAddressSync(
           [utf8.encode("USER_STATE"), publicKey.toBuffer()],
           program.programId
@@ -143,8 +146,10 @@ const Generated: React.FC = () => {
         toast.success("Successfully initialized user.");
       } catch (error) {
         toast.error(error.toString());
+        setLoading(false);
       } finally {
         setTransactionPending(false);
+        setLoading(false);
       }
     }
   };
@@ -227,14 +232,22 @@ const Generated: React.FC = () => {
               name: nftInfo.name,
               description: nftInfo.description,
               image: toMetaplexFile(buffer, "metaplex.png"),
+              attributes: [attributes],
             });
             const { nft } = await mx.nfts().create({
               uri,
               name: nftInfo.name,
               sellerFeeBasisPoints: 500,
             });
-            // addPrompts()
 
+            // console.log("nft:", nft);
+            // console.log("uri:", uri);
+            // console.log("metadata:", metadata);
+            const addingPrompt = await addPrompts(
+              promptInfo.prompt,
+              metadata.image
+            );
+            console.log(addingPrompt);
             handleCancelSubmission();
 
             alert("NFT Minted Successfully");
@@ -263,7 +276,7 @@ const Generated: React.FC = () => {
     setRealBlobUrl(null);
     setPromptInfo({
       prompt: "",
-      model: "models/prompthero/openjourney",
+      model: "Meina/Unreal_V4.1",
     });
   };
   const handleAttributeChange = (key: string, value: string) => {
@@ -301,7 +314,7 @@ const Generated: React.FC = () => {
   };
 
   const handleSubmitGenerate = async () => {
-    console.log("sda", process.env.NEXT_PUBLIC_API_TOKEN);
+    setLoading(true);
     try {
       const response = await fetch(
         `https://api-inference.huggingface.co/models/${promptInfo.model}`,
@@ -316,9 +329,10 @@ const Generated: React.FC = () => {
       );
 
       if (!response.ok) {
+        setLoading(false);
         throw new Error("Failed to generate image");
       }
-
+      setLoading(false);
       const blob = await response.blob();
       setBlobUrl(URL.createObjectURL(blob));
       setRealBlobUrl(blob);
@@ -329,6 +343,7 @@ const Generated: React.FC = () => {
 
   return (
     <Box>
+      <CustomLoading isLoading={loading} />
       {initialized === true ? (
         <Grid container>
           <Grid item xs={12} lg={6} p={2}>
