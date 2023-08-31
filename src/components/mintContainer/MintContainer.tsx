@@ -22,17 +22,17 @@ interface ViewItem {
 const view: ViewItem[] = [
   {
     id: 0.1,
-    title: "Upload Manually",
-    state: "manual",
-  },
-  {
-    id: 0.2,
     title: "AI Generated",
     state: "ai",
   },
+  {
+    id: 0.2,
+    title: "Upload Manually",
+    state: "manual",
+  },
 ];
 const MintContainer: React.FC<mintData> = ({ nftData }) => {
-  const [instruction, setInstruction] = React.useState<string | null>("manual");
+  const [instruction, setInstruction] = React.useState<string | null>("ai");
   const toggleTitle = {
     fontSize: "15px",
     fontWeight: 400,

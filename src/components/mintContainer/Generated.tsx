@@ -90,7 +90,7 @@ const Generated: React.FC = () => {
 
   useEffect(() => {
     const findProfileAccounts = async () => {
-      if (program && publicKey && !transactionPending) {
+      if (program && publicKey && !transactionPending && !initialized) {
         try {
           setLoading(true);
           const [profilePda, profileBump] = await findProgramAddressSync(
@@ -121,7 +121,9 @@ const Generated: React.FC = () => {
       }
     };
 
-    findProfileAccounts();
+    if (!initialized) {
+      findProfileAccounts();
+    }
   }, [publicKey, program, transactionPending]);
 
   const initializeUser = async () => {
@@ -184,10 +186,8 @@ const Generated: React.FC = () => {
             systemProgram: Web3.SystemProgram.programId,
           })
           .rpc();
-        alert("success");
       } catch (error) {
-        console.log(error);
-        toast.error(error.toString());
+        alert(error.toString());
       } finally {
         setTransactionPending(false);
       }
@@ -240,17 +240,14 @@ const Generated: React.FC = () => {
               sellerFeeBasisPoints: 500,
             });
 
-            // console.log("nft:", nft);
-            // console.log("uri:", uri);
-            // console.log("metadata:", metadata);
             const addingPrompt = await addPrompts(
               promptInfo.prompt,
               metadata.image
             );
-            console.log(addingPrompt);
+
             handleCancelSubmission();
 
-            alert("NFT Minted Successfully");
+            alert("NFT minted successfully");
           } catch (e) {
             alert(e);
             setButtonDisable(false);
@@ -330,7 +327,7 @@ const Generated: React.FC = () => {
 
       if (!response.ok) {
         setLoading(false);
-        throw new Error("Failed to generate image");
+        throw new Error("Failed to generate an image. Please try again!");
       }
       setLoading(false);
       const blob = await response.blob();
@@ -402,7 +399,7 @@ const Generated: React.FC = () => {
                 </Typography>
               </Button>
             </Box>
-            <Box mt={2}>
+            <Box mt={2} className={blobUrl ? "dropzone" : null}>
               {blobUrl && (
                 <Image
                   src={blobUrl || ""}
@@ -578,7 +575,10 @@ const Generated: React.FC = () => {
                       textTransform: "none",
                     }}
                     type="submit"
-                    disabled={ButtonDisable}
+                    disabled={
+                      ButtonDisable ||
+                      (nftInfo.name === "" && nftInfo.description === "")
+                    }
                   >
                     <Typography sx={{ fontSize: "15px", color: "white" }}>
                       Submit
@@ -593,6 +593,7 @@ const Generated: React.FC = () => {
         <Button
           onClick={initializeUser}
           // onClick={addPrompts}
+          hidden={initialized}
           sx={{
             background: "rgba(128, 116, 255, 1) !important",
             textTransform: "none",

@@ -19,7 +19,7 @@ const FirstSection = () => {
         height={500}
         priority
         className="absolute z-1 opacity-60"
-        alt="Picture of the author"
+        alt="SD-MINTER"
       />
     </div>
   );

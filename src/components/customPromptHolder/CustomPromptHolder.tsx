@@ -1,25 +1,23 @@
 import React from "react";
-import { Grid, Box } from "@mui/material";
-import { useRouter } from "next/router";
+import { Grid, Box, Typography } from "@mui/material";
+import { subHeader } from "constant/constant";
 
-interface CustomPictureHolderProps {
-  nftData: any;
+interface CustomPromptHolderProps {
+  promptData: any;
 }
 
-const CustomPictureHolder: React.FC<CustomPictureHolderProps> = ({
-  nftData,
+const CustomPromptHolder: React.FC<CustomPromptHolderProps> = ({
+  promptData,
 }) => {
-  const router = useRouter();
   return (
-    <Grid container mb={5} mt={2} rowSpacing={2} columnSpacing={2}>
-      {nftData.length > 0
-        ? nftData.map((nft: any) => (
+    <Grid container mb={5} mt={2} gap={2}>
+      {promptData.length > 0
+        ? promptData.reverse().map((prompt: any, index: number) => (
             <Grid
-              key={nft?.id}
+              key={index}
               item
-              xs={6}
-              md={4}
-              lg={3}
+              xs={12}
+              p={2}
               position="relative"
               height={{
                 xs: 155,
@@ -38,26 +36,27 @@ const CustomPictureHolder: React.FC<CustomPictureHolderProps> = ({
               sx={{
                 backgroundColor: "transparent",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
                 overflow: "hidden",
+                border: "1px solid white",
               }}
             >
               <Box
                 component="img"
-                onClick={() => router.push(`/gallery/nft/${nft.id}`)}
-                src={nft?.uriData?.image}
-                alt="NFT"
+                src={prompt?.account?.imageUrl}
+                alt="NFTr"
                 sx={{
                   aspectRatio: "1/1 !important",
                   objectFit: "contain",
                   height: "100%",
-                  "&:hover": {
-                    cursor: "pointer",
-                    opacity: 0.8,
-                  },
                 }}
               />
+              <Box ml={2}>
+                <Typography sx={subHeader}>
+                  {prompt?.account?.content}
+                </Typography>
+              </Box>
             </Grid>
           ))
         : null}
@@ -65,4 +64,4 @@ const CustomPictureHolder: React.FC<CustomPictureHolderProps> = ({
   );
 };
 
-export default CustomPictureHolder;
+export default CustomPromptHolder;

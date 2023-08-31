@@ -10,6 +10,7 @@ import type { AppProps } from "next/app";
 import type { FC } from "react";
 import React, { useMemo } from "react";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 // Use require instead of import since order matters
 require("@solana/wallet-adapter-react-ui/styles.css");
 
