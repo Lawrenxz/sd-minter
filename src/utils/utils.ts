@@ -5,7 +5,7 @@ import { message } from "antd";
 import { PublicKey } from "@solana/web3.js";
 import { useMetaplex } from "metaplexInstance";
 interface FinalNFT {
-  id: string;
+  id: any;
   name: string;
   uriData: any; // You can replace 'any' with a more specific type if you know the structure of the data
 }
@@ -23,9 +23,10 @@ const utils = () => {
         try {
           const response = await fetch(nft.uri);
           const uriData = await response.json();
-
+          const parts: any = nft.uri.split("/");
+          const hash = parts[parts.length - 1];
           const finalNFT: FinalNFT = {
-            id: nft.uri,
+            id: hash,
             name: nft.name,
             uriData: uriData,
           };

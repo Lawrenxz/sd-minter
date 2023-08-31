@@ -34,11 +34,17 @@ const NavBar = () => {
             width={50}
             height={50}
             priority
-            alt="Picture of the author"
+            alt="SD-MINTER"
           />
         </Link>
 
         <Box className="flex flex-row gap-5 mr-5 justify-center items-center">
+          <Link
+            href="/prompt"
+            className={path === "/prompt" ? "text-[#f7d748]" : "text-white"}
+          >
+            Prompt
+          </Link>
           {publicKey && (
             <>
               <Link
@@ -90,24 +96,33 @@ const NavBar = () => {
           </Box>
 
           <WalletMultiButtonDynamic className="walletButton" />
-          {publicKey && (
-            <Box className="flex flex-col mt-5 gap-5 mr-5">
-              <Link
-                href="/mint"
-                className={path === "/mint" ? "text-[#f7d748]" : "text-white"}
-              >
-                Mint
-              </Link>
-              <Link
-                href="/gallery"
-                className={
-                  path === "/gallery" ? "text-[#f7d748]" : "text-white"
-                }
-              >
-                Gallery
-              </Link>
-            </Box>
-          )}
+
+          <Box className="flex flex-col mt-5 gap-5 mr-5">
+            <Link
+              href="/prompt"
+              className={path === "/prompt" ? "text-[#f7d748]" : "text-white"}
+            >
+              Prompt
+            </Link>
+            {publicKey && (
+              <>
+                <Link
+                  href="/mint"
+                  className={path === "/mint" ? "text-[#f7d748]" : "text-white"}
+                >
+                  Mint
+                </Link>
+                <Link
+                  href="/gallery"
+                  className={
+                    path === "/gallery" ? "text-[#f7d748]" : "text-white"
+                  }
+                >
+                  Gallery
+                </Link>
+              </>
+            )}
+          </Box>
         </div>
       </Box>
     </nav>

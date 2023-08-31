@@ -7,6 +7,7 @@ import useCustomWallet from "utils/useCustomWallet";
 import CustomPictureHolder from "components/customPictureHolder/CustomPictureHolder";
 import { header } from "constant/constant";
 import Layout from "components/layout/Layout";
+import CustomLoading from "components/customLoading/CustomLoading";
 
 interface FinalNFT {
   id: string;
@@ -28,7 +29,6 @@ const index = () => {
         if (request) {
           setNftListed(request);
         }
-        console.log(request);
       } catch (error) {
         console.error("Error fetching NFTs:", error);
       }
@@ -46,8 +46,14 @@ const index = () => {
         px={{ xs: 2, md: 10, lg: 20 }}
         border="10px solid black"
       >
-        <Typography sx={header}>NFTs Gallery</Typography>
-        <CustomPictureHolder nftData={nftListed} />
+        {nftListed?.length === 0 ? (
+          <CustomLoading isLoading={true} />
+        ) : (
+          <>
+            <Typography sx={header}>NFTs Gallery</Typography>
+            <CustomPictureHolder nftData={nftListed} />
+          </>
+        )}
       </Box>
     </Layout>
   );
