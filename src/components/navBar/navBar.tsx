@@ -8,6 +8,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import React, { useEffect } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 const WalletMultiButtonDynamic = dynamic(
   async () =>
@@ -16,13 +18,23 @@ const WalletMultiButtonDynamic = dynamic(
 );
 const NavBar = () => {
   const { publicKey } = useCustomWallet();
+  const { wallet } = useWallet();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const handleToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
+  const router = useRouter();
+  useEffect(() => {
+    if (!wallet) {
+      router.push("/");
+    }
+  }, [publicKey]);
   const path = useRouter().asPath;
   return (
-    <nav className=" border-b z-50 border-white flex items-center justify-start w-full py-2 px-10 bg-black absolute top-0 left-0 ">
+    <Box
+      zIndex={999999999999999}
+      className=" border-b  border-white flex items-center justify-start w-full py-2 px-10 bg-black absolute top-0 left-0 "
+    >
       <IconButton className="sm:hidden" onClick={handleToggleDrawer}>
         <AiOutlineMenu className="sm:hidden" color="white" />
       </IconButton>
@@ -39,14 +51,14 @@ const NavBar = () => {
         </Link>
 
         <Box className="flex flex-row gap-5 mr-5 justify-center items-center">
-          <Link
-            href="/prompt"
-            className={path === "/prompt" ? "text-[#f7d748]" : "text-white"}
-          >
-            Prompt
-          </Link>
           {publicKey && (
             <>
+              <Link
+                href="/prompt"
+                className={path === "/prompt" ? "text-[#f7d748]" : "text-white"}
+              >
+                Prompt
+              </Link>
               <Link
                 href="/mint"
                 className={path === "/mint" ? "text-[#f7d748]" : "text-white"}
@@ -98,14 +110,16 @@ const NavBar = () => {
           <WalletMultiButtonDynamic className="walletButton" />
 
           <Box className="flex flex-col mt-5 gap-5 mr-5">
-            <Link
-              href="/prompt"
-              className={path === "/prompt" ? "text-[#f7d748]" : "text-white"}
-            >
-              Prompt
-            </Link>
             {publicKey && (
               <>
+                <Link
+                  href="/prompt"
+                  className={
+                    path === "/prompt" ? "text-[#f7d748]" : "text-white"
+                  }
+                >
+                  Prompt
+                </Link>
                 <Link
                   href="/mint"
                   className={path === "/mint" ? "text-[#f7d748]" : "text-white"}
@@ -125,7 +139,7 @@ const NavBar = () => {
           </Box>
         </div>
       </Box>
-    </nav>
+    </Box>
   );
 };
 

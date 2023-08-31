@@ -26,8 +26,7 @@ const index = () => {
   const anchorWallet = useAnchorWallet();
   const programId = new Web3.PublicKey(process.env.NEXT_PUBLIC_PROGRAM_ID);
   const [loading, setLoading] = useState<boolean>(true);
-  const [initialized, setInitialized] = useState<boolean>(false);
-  const [lastTodo, setLastTodo] = useState<number>(0);
+
   const [todos, setTodos] = useState<any[]>([]); // Adjust the type accordingly
   const program = useMemo(() => {
     if (anchorWallet) {
@@ -44,27 +43,13 @@ const index = () => {
       if (program && publicKey) {
         try {
           setLoading(true);
-          const [profilePda, profileBump] = await findProgramAddressSync(
-            [utf8.encode("USER_STATE"), publicKey.toBuffer()],
-            program.programId
-          );
 
-          const profileAccount: any | null =
-            await program.account.userProfile.fetch(profilePda);
+          const promptAccounts = await program.account.promptAccount.all();
 
-          if (profileAccount) {
-            setInitialized(true);
-            setLastTodo(profileAccount.lastPrompt);
-
-            const promptAccounts = await program.account.promptAccount.all();
-
-            setTodos(promptAccounts);
-          } else {
-            setInitialized(false);
-          }
+          setTodos(promptAccounts);
         } catch (error) {
-          // alert(error);
           setTodos([]);
+          setLoading(false);
         } finally {
           setLoading(false);
         }
