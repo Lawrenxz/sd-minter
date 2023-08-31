@@ -20,17 +20,20 @@ const index = () => {
   const { findNFTsByOwner } = utils();
   const { publicKey } = useCustomWallet();
   const walletAddress: any = publicKey ? publicKey.toBase58() : "";
-
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     async function fetchNft() {
       try {
+        setLoading(true);
         const request = await findNFTsByOwner(walletAddress);
 
         if (request) {
           setNftListed(request);
+          setLoading(false);
         }
       } catch (error) {
-        console.error("Error fetching NFTs:", error);
+        alert(error.toSting());
+        setLoading(false);
       }
     }
 
@@ -46,14 +49,9 @@ const index = () => {
         px={{ xs: 2, md: 10, lg: 20 }}
         border="10px solid black"
       >
-        {nftListed?.length === 0 ? (
-          <CustomLoading isLoading={true} />
-        ) : (
-          <>
-            <Typography sx={header}>NFTs Gallery</Typography>
-            <CustomPictureHolder nftData={nftListed} />
-          </>
-        )}
+        <CustomLoading isLoading={loading} />
+        <Typography sx={header}>NFTs Gallery</Typography>
+        <CustomPictureHolder nftData={nftListed} />
       </Box>
     </Layout>
   );
