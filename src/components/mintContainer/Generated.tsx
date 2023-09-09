@@ -3,7 +3,7 @@
 import { Box, Grid, Typography, Button, TextField } from "@mui/material";
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { useFormik } from "formik";
+import { useFormik, ErrorMessage } from "formik";
 import { Input as inp, Tooltip } from "antd";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { validationSchema } from "validation/nftValidation";
@@ -70,7 +70,7 @@ const Generated: React.FC = () => {
   const [showAddFields, setShowAddFields] = useState<boolean>(false);
   const [newAttributeName, setNewAttributeName] = useState<string>("");
   const [newAttributeValue, setNewAttributeValue] = useState<string>("");
-  const [ButtonDisable, setButtonDisable] = useState<boolean>(false);
+  const [buttonDisable, setButtonDisable] = useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: nftInfo,
@@ -325,16 +325,13 @@ const Generated: React.FC = () => {
         }
       );
 
-      if (!response.ok) {
-        setLoading(false);
-        throw new Error("Failed to generate an image. Please try again!");
-      }
       setLoading(false);
       const blob = await response.blob();
       setBlobUrl(URL.createObjectURL(blob));
       setRealBlobUrl(blob);
     } catch (e) {
-      alert(e);
+      alert(e.toSting());
+      setLoading(false);
     }
   };
 
@@ -428,9 +425,8 @@ const Generated: React.FC = () => {
                   name="name"
                   value={nftInfo.name}
                   onChange={handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.name && Boolean(formik.errors.name)}
                 />
+
                 <TextArea
                   className="textfield"
                   rows={4}
@@ -503,6 +499,7 @@ const Generated: React.FC = () => {
                     >
                       <TextField
                         InputProps={{
+                          readOnly: true,
                           style: {
                             color: "white",
                             fontSize: "15px",
@@ -561,7 +558,7 @@ const Generated: React.FC = () => {
                       background: "rgba(128, 116, 255, 1) !important",
                       textTransform: "none",
                     }}
-                    disabled={ButtonDisable}
+                    disabled={buttonDisable}
                     onClick={handleCancelSubmission}
                   >
                     <Typography sx={{ fontSize: "15px", color: "white" }}>
@@ -576,7 +573,7 @@ const Generated: React.FC = () => {
                     }}
                     type="submit"
                     disabled={
-                      ButtonDisable ||
+                      buttonDisable ||
                       (nftInfo.name === "" && nftInfo.description === "")
                     }
                   >
